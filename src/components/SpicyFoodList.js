@@ -15,7 +15,7 @@ function SpicyFoodList() {
   //const newFoods=foods.filter(food=>food.id !== id)  -- click and remove the element.
   const newFoods = foods.map(food=>{
   if(food.id===id){
-  food.heatLevel + 1;
+  food.heatLevel += 1;
   return food;
   }
   return food; 
@@ -51,8 +51,8 @@ function SpicyFoodList() {
           <option value="Sichuan">Sichuan</option>
           <option value="Thai">Thai</option>
           <option value="Mexican">Mexican</option>
-          <ul>{foodList}</ul>
   </select>
+  <ul>{foodList}</ul>
     </div>
   );
 }
