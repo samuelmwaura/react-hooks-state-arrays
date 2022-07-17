@@ -23,13 +23,6 @@ function SpicyFoodList() {
   setFoods(newFoods)
   }
 
-
-  const foodList = foods.map((food) => (
-    <li key={food.id} onClick={()=>handleFoodClick(food.id)}>
-      {food.name} | Heat: {food.heatLevel} | Cuisine: {food.cuisine}
-    </li>
-  ));
-
   function handleFilterChange(event){
     setCuisineType(event.target.value);
   }
@@ -41,6 +34,14 @@ function SpicyFoodList() {
     return cuisineType === food.cuisine
     });
 
+
+  const foodList = cuisinetoDisplay.map((food) => (
+    <li key={food.id} onClick={()=>handleFoodClick(food.id)}>
+      {food.name} | Heat: {food.heatLevel} | Cuisine: {food.cuisine}
+    </li>
+  ));
+
+  
   return (
     <div>
       <button onClick={handleAddFood}>Add New Food</button>
@@ -50,7 +51,7 @@ function SpicyFoodList() {
           <option value="Sichuan">Sichuan</option>
           <option value="Thai">Thai</option>
           <option value="Mexican">Mexican</option>
-          <ul>{cuisinetoDisplay}</ul>
+          <ul>{foodList}</ul>
   </select>
     </div>
   );

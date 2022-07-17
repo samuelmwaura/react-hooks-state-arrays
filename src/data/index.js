@@ -1,23 +1,60 @@
-const spicyFoods = [
-  { id: 1, name: "Buffalo Wings", cuisine: "American", heatLevel: 3 },
-  { id: 2, name: "Mapo Tofu", cuisine: "Sichuan", heatLevel: 6 },
-];
+import React, { useState } from "react";
+import { spicyFoods, getNewRandomSpicyFood } from "../data";
 
-let nextId = 3;
+function SpicyFoodList() {
+  const [foods, setFoods] = useState(spicyFoods);
+  const [cuisineType,setCuisineType] = useState('All');
 
-const newSpicyFoods = [
-  { name: "Green Curry", cuisine: "Thai", heatLevel: 9 },
-  { name: "Enchiladas", cuisine: "Mexican", heatLevel: 2 },
-  { name: "5 Alarm Chili", cuisine: "American", heatLevel: 5 },
-];
+  function handleAddFood() {
+    const newFood = getNewRandomSpicyFood();
+    const newFoodArray = [...foods,newFood]
+    setFoods(newFoodArray);
+  }
 
-// Get one random spicy food from the array
-function getNewRandomSpicyFood() {
-  const index = Math.floor(Math.random() * newSpicyFoods.length);
-  const newSpicyFood = { ...newSpicyFoods[index] };
-  newSpicyFood.id = nextId;
-  nextId++;
-  return newSpicyFood;
+  function handleFoodClick(id){
+  //const newFoods=foods.filter(food=>food.id !== id)  -- click and remove the element.
+  const newFoods = foods.map(food=>{
+  if(food.id===id){
+  food.heatLevel += 1;
+  return food;
+  }
+  return food; 
+  })
+  setFoods(newFoods)
+  }
+
+  function handleFilterChange(event){
+    setCuisineType(event.target.value);
+  }
+  
+    const cuisinetoDisplay = foods.filter(food=>{
+    if(cuisineType === 'All'){
+      return true;
+    }
+    return cuisineType === food.cuisine
+    });
+
+
+  const foodList = cuisinetoDisplay.map((food) => (
+    <li key={food.id} onClick={()=>handleFoodClick(food.id)}>
+      {food.name} | Heat: {food.heatLevel} | Cuisine: {food.cuisine}
+    </li>
+  ));
+
+  
+  return (
+    <div>
+      <button onClick={handleAddFood}>Add New Food</button>
+      <select name="filter" onChange={handleFilterChange}>
+          <option value="All">All</option>
+          <option value="American">American</option>
+          <option value="Sichuan">Sichuan</option>
+          <option value="Thai">Thai</option>
+          <option value="Mexican">Mexican</option>
+  </select>
+  <ul>{foodList}</ul>
+    </div>
+  );
 }
 
-export { spicyFoods, getNewRandomSpicyFood };
+export default SpicyFoodList;
